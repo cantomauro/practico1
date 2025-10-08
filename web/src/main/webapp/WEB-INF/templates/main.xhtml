@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:h="http://jakarta.ee/xml/ns/jakartaee"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<h:head>
+    <title><ui:insert name="title">HCEN</ui:insert></title>
+    <meta charset="UTF-8"/>
+</h:head>
+<h:body>
+    <p:menubar>
+        <p:menuitem value="Inicio" outcome="/index.xhtml" />
+        <p:menuitem value="Historias" outcome="/pages/hc/hc.xhtml" />
+    </p:menubar>
+
+    <div class="container" style="margin:1rem;">
+        <ui:insert name="content"/>
+    </div>
+
+    <p:ajaxStatus style="position:fixed;right:10px;bottom:10px;">
+        <f:facet name="start"><p:spinner/></f:facet>
+    </p:ajaxStatus>
+</h:body>
+</html>

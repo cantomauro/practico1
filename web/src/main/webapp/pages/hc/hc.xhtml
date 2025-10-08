@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:h="http://jakarta.ee/xml/ns/jakartaee"
+      xmlns:f="http://jakarta.ee/xml/ns/jakartaee"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="title">Historias</ui:define>
+    <ui:define name="content">
+
+        <p:growl id="msgs" showDetail="true" life="3000" />
+
+        <!-- Alta -->
+        <h:form id="formAlta">
+            <p:panel header="Abrir Historia Clínica">
+                <div class="grid">
+                    <div class="col-12 md:col-4">
+                        <p:outputLabel for="paciente" value="Paciente ID"/>
+                        <p:inputNumber id="paciente" value="#{historiaClinicaBean.pacienteId}" />
+                    </div>
+                    <div class="col-12 md:col-4">
+                        <p:outputLabel for="prestador" value="Prestador ID"/>
+                        <p:inputNumber id="prestador" value="#{historiaClinicaBean.prestadorId}" />
+                    </div>
+                    <div class="col-12 md:col-4">
+                        <p:outputLabel for="motivo" value="Motivo"/>
+                        <p:inputText id="motivo" value="#{historiaClinicaBean.motivo}" />
+                    </div>
+                </div>
+
+                <p:commandButton value="Guardar"
+                                 actionListener="#{historiaClinicaBean.agregar}"
+                                 update=":listForm :formAlta msgs"
+                                 icon="pi pi-save"/>
+                <p:commandButton value="Limpiar"
+                                 actionListener="#{historiaClinicaBean.limpiarFormulario}"
+                                 update="formAlta"
+                                 icon="pi pi-times"/>
+            </p:panel>
+        </h:form>
+
+        <!-- Búsqueda + Listado -->
+        <h:form id="listForm">
+            <p:panel header="Historias">
+                <div class="grid">
+                    <div class="col-12 md:col-3">
+                        <p:outputLabel for="filtro" value="Paciente ID (filtro)"/>
+                        <p:inputNumber id="filtro" value="#{historiaClinicaBean.filtroPacienteId}" />
+                    </div>
+                    <div class="col-12 md:col-3" style="margin-top:1.8rem;">
+                        <p:commandButton value="Buscar"
+                                         actionListener="#{historiaClinicaBean.buscarPorPaciente}"
+                                         update="tabla msgs"
+                                         icon="pi pi-search"/>
+                        <p:commandButton value="Limpiar filtro"
+                                         actionListener="#{historiaClinicaBean.setFiltroPacienteId(null)}"
+                                         update="tabla"
+                                         icon="pi pi-filter-slash"
+                                         process="@this"/>
+                    </div>
+                </div>
+
+                <p:dataTable id="tabla" value="#{historiaClinicaBean.historias}" var="h"
+                             paginator="true" rows="10" rowKey="#{h.id}">
+                    <p:column headerText="ID">#{h.id}</p:column>
+                    <p:column headerText="Paciente">#{h.pacienteId}</p:column>
+                    <p:column headerText="Fecha Apertura">#{h.fechaApertura}</p:column>
+                    <p:column headerText="Prestador">#{h.prestadorId}</p:column>
+                    <p:column headerText="Motivo">#{h.motivo}</p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>
